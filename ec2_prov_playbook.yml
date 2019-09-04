@@ -1,0 +1,33 @@
+---
+### provision AWS EC2 instance
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  user: root
+  pre_tasks:
+    - include_vars: variables.yml
+  tasks:
+    - name: Provision {{ ec2_count }} instances with tag {{ ec2_tag_Role }}
+      local_action:
+        module: ec2
+        group_id: "sg-0c7b1d59ae3bba3cc"
+        instance_type: "t2.micro"
+        vpc_subnet_id: "subnet-d0b8eafe"
+        image: "ami-07d0cf3af28718ef8"
+        region: "us-east-1b"
+        assign_public_ip: yes
+        wait: true
+        exact_count: "1"
+        count_tag:
+          Role: "someRole"
+        volumes:
+          - device_name: /dev/xvda
+            volume_type: gp2
+            volume_size: "8"
+            delete_on_termination: true
+      register: ec2
+
+  post_tasks:
+    - name: refresh hosts inventory list
+      meta: refresh_inventory
+

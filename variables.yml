@@ -1,0 +1,11 @@
+STATE_RES_NAME: "${STATE_RES_NAME}"
+ec2_region: "${us-east-1b}"
+ec2_instance_type: "${t2.micro}"
+ec2_image: "${}"
+ec2_keypair: "${Ubuntu_Demo}"
+ec2_volume_size: ${8 GiB}
+ec2_count: ${ec2_count}
+ec2_security_group_id: "${sg-0c7b1d59ae3bba3cc}"
+ec2_subnet_id: "${subnet-d0b8eafe}"
+ec2_tag_Type: "${ec2_tag_Type}"
+ec2_tag_Role: "${ec2_tag_Role}"
