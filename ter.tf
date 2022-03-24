@@ -1,11 +1,35 @@
 provider "aws" {
-  access_key = "AKIA6OZFQGUIYNIS4XF5"
-  secret_key = "idDzIYAd7AXGu0mlIjBCdwiGgyR0kbcnNA1X5bNM"
-  region     = "us-east-1"
+  region = "us-east-1"
+  profile = "MyAWS"
 }
 
-resource "aws_instance" "example11" {
-  ami           = "ami-07d0cf3af28718ef8"
-  instance_type = "t2.micro"
+resource "aws_iam_user" "lb" {
+  name = "loadbalancer"
+  path = "/system/"
+}
+
+resource "aws_iam_user_policy" "lb_ro" {
+    name = "ec2"
+    user = aws_iam_user.lb.name
+    policy = jsonencode({
+            Version: "2012-10-17",
+            "Statement": [{
+            "Effect": "Allow",
+            "Action": ["ec2:*"],
+            "Resource": "*" }]
+    })
+}
+
+resource "aws_iam_user_policy" "lb_row" {
+
+    name = "s3"
+    user = aws_iam_user.lb.name
+    policy = jsonencode({
+            Version: "2012-10-17",
+            "Statement": [{
+            "Effect": "Allow",
+            "Action": ["s3:*"],
+            "Resource": "*" }]
+    })
 }
 
